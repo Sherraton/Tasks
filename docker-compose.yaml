@@ -1,0 +1,27 @@
+version: "3.3"
+### CREATE NETWORK
+networks: 
+ tasksNetwork: 
+  driver: bridge
+
+services:
+ # DEFAULT DATABASE CONFIGURATION: host=127.0.0.1 port=3306
+ tasksDb:
+  image: mysql:8.0
+  restart: unless-stopped
+  tty: true
+  container_name: tasksDb
+  environment: 
+   - MYSQL_ROOT_PASSWORD=password
+   - MYSQL_DATABASE=tasksDb
+   - MYSQL_USER=user
+   - MYSQL_PASSWORD=password
+  ports:
+   - 3306:3306
+  expose:
+   - 3306
+  ### PERSIST DATA
+  volumes: 
+   - ./database:/var/lib/mysql
+  networks:
+   - tasksNetwork
